@@ -49,82 +49,83 @@ client.on('message', async message => {
     client.snipes = new Map()
 
     client.on('messageDelete', message => {
-
-client.snipes.set(message.channel.id, {
-content:message.content,
-author:message.author.tag,
-image:message.attachments.first() ? message.attachments.first().proxyURL : null
-      })
-})
-  if(command === 'dm') {
-    let dUser = message.guild.member(message.mentions.users.first())
-    if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply('Sorry you to not have permissions to DM.')
-    if(!dUser) return message.channel.send('Can not find user.')
-    let dMessage = args.join(" ").slice(22);
-    dUser.send(`You were DM'ed in ${message.guild.name}, this is the message : ${dMessage}`)
-      const embed = new discord.MessageEmbed()
-      .setDescription(`** *${dUser} has been DM'ed. this was the message : ${dMessage}* **`)
-      message.channel.send(embed)
-      message.delete().catch(e => {});
-  }
-  if(command === 'warn') {
-    let dUser = message.guild.member(message.mentions.users.first())
-    if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply('Sorry you to not have permissions to warn.')
-    if(!dUser) return message.channel.send('Can not find user.')
-    let dMessage = args.join(" ").slice(22);
-    dUser.send(`You were warned in ${message.guild.name} for: ${dMessage}`)
-      const embed = new discord.MessageEmbed()
-      .setDescription(`** *${dUser} has been warned for: ${dMessage}* **`)
-      .setColor('#ff0000')
-      message.channel.send(embed)
-      message.delete().catch(e => {});
-  }
+        client.snipes.set(message.channel.id, {
+            content:message.content,
+            author:message.author.tag,
+            image:message.attachments.first() ? message.attachments.first().proxyURL : null
+        })
+    })
+    
+    if(command === 'dm') {
+        let dUser = message.guild.member(message.mentions.users.first())
+        if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply('Sorry you to not have permissions to DM.')
+        if(!dUser) return message.channel.send('Can not find user.')
+        let dMessage = args.join(" ").slice(22);
+        dUser.send(`You were DM'ed in ${message.guild.name}, this is the message : ${dMessage}`)
+        const embed = new discord.MessageEmbed()
+        .setDescription(`** *${dUser} has been DM'ed. this was the message : ${dMessage}* **`)
+        message.channel.send(embed)
+        message.delete().catch(e => {});
+      }
+    
+      if(command === 'warn') {
+        let dUser = message.guild.member(message.mentions.users.first())
+        if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply('Sorry you to not have permissions to warn.')
+        if(!dUser) return message.channel.send('Can not find user.')
+        let dMessage = args.join(" ").slice(22);
+        dUser.send(`You were warned in ${message.guild.name} for: ${dMessage}`)
+        const embed = new discord.MessageEmbed()
+        .setDescription(`** *${dUser} has been warned for: ${dMessage}* **`)
+        .setColor('#ff0000')
+        message.channel.send(embed)
+        message.delete().catch(e => {});
+      }
 
 });
 
 
 
 client.on("message", message => {
-const member = message.author.username
+    const member = message.author.username
 
-if (!message.guild) return;
-if (message.content.startsWith('/kick')) {
-  if (!message.member.hasPermission(["KICK_MEMBERS"])) return message.channel.send('You need to have the permmission "KICK_MEMBERS"!')
-  message.delete().catch(e => {});
-  console.log('Kick command used by', member)
-const user = message.mentions.users.first();
-if (user) {
-  const member = message.guild.member(user);
-    if (member) {
-      member.kick("Optional reason that will display in the audit logs").then(() => {
-        message.channel.send(`Successfully kicked ${user.tag}.`);
-      }).catch(err => {
-        message.channel.send("I was unable to kick the member");
-        console.error(err);
-        member.roles.cache.has('724113809249140787');
-      });
-    } else {
-      message.channel.send("That user isn't in this guild!");
+    if (!message.guild) return;
+    if (message.content.startsWith('/kick')) {
+        if (!message.member.hasPermission(["KICK_MEMBERS"])) return message.channel.send('You need to have the permmission "KICK_MEMBERS"!')
+        message.delete().catch(e => {});
+        console.log('Kick command used by', member)
+        const user = message.mentions.users.first();
+        if (user) {
+            const member = message.guild.member(user);
+            if (member) {
+                member.kick("Optional reason that will display in the audit logs").then(() => {
+                    message.channel.send(`Successfully kicked ${user.tag}.`);
+                }).catch(err => {
+                    message.channel.send("I was unable to kick the member");
+                    console.error(err);
+                    member.roles.cache.has('724113809249140787');
+                });
+            } else {
+                message.channel.send("That user isn't in this guild!");
+            }
+        } else {
+            message.channel.send("You didn't mention the user to kick!");
+        }
+
     }
-} else {
-  message.channel.send("You didn't mention the user to kick!");
-  
-}
-
-}const swearWords = ["Nigga", "NIGGA", "nigga"];
-if (swearWords.some(word => message.content.includes(word))) {
-  const embed = new discord.MessageEmbed()
-  .setTitle('Blacklisted word detected!')
-  .setDescription("Stop saying these words! If you continue a staff member will go through with an offical warning.")
-  .addField("Stop breaking the rules.")
-  .setFooter("This is an automated message by the Bot.")
-  .setTimestamp()
-  .setColor(0xA30000)
-
-message.delete().catch(e => {});
-console.log('No No Word was deleted! Sent by', member)
-message.channel.send(embed)
-}
+    
+    const swearWords = ["Nigga", "NIGGA", "nigga"];
+    if (swearWords.some(word => message.content.includes(word))) {
+        const embed = new discord.MessageEmbed()
+        .setTitle('Blacklisted word detected!')
+        .setDescription("Stop saying these words! If you continue, a staff member will go through with an offical warning.")
+        .addField("Stop breaking the rules.")
+        .setFooter("This is an automated message.")
+        .setTimestamp()
+        .setColor("A30000");
+        message.delete().catch(e => {});
+        console.log('Blacklisted word was deleted, Sent by', member)
+        message.channel.send(embed)
+    }
 });
 
 
@@ -157,4 +158,4 @@ vote(client)
 
 
 
-client.login(token)
+client.login(token);
