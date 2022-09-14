@@ -113,8 +113,8 @@ client.on("message", message => {
 
     }
     
-    const swearWords = ["Nigga", "NIGGA", "nigga"];
-    if (swearWords.some(word => message.content.includes(word))) {
+    const swearWords = ["nigga", "fuck", "shit"];
+    if (swearWords.some(word => message.content.toLowerCase().includes(word.toLowerCase()))) {
         const embed = new discord.MessageEmbed()
         .setTitle('Blacklisted word detected!')
         .setDescription("Stop saying these words! If you continue, a staff member will go through with an offical warning.")
