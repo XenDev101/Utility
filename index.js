@@ -59,7 +59,7 @@ client.on('message', async message => {
     if(command === 'dm') {
         let dUser = message.guild.member(message.mentions.users.first())
         if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply('Sorry you do not have the required permissions to DM.')
-        if(!dUser) return message.channel.send('Can not find user.')
+        if(!dUser) return message.channel.send('Cannot find user.')
         let dMessage = args.join(" ").slice(22);
         dUser.send(`You were DM'ed in ${message.guild.name}, this is the message : ${dMessage}`)
         const embed = new discord.MessageEmbed()
@@ -71,7 +71,7 @@ client.on('message', async message => {
       if(command === 'warn') {
         let dUser = message.guild.member(message.mentions.users.first())
         if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply('Sorry you do not have the required permissions to warn.')
-        if(!dUser) return message.channel.send('Can not find user.')
+        if(!dUser) return message.channel.send('Cannot find user.')
         let dMessage = args.join(" ").slice(22);
         dUser.send(`You were warned in ${message.guild.name} for: ${dMessage}`)
         const embed = new discord.MessageEmbed()
@@ -90,7 +90,7 @@ client.on("message", message => {
 
     if (!message.guild) return;
     if (message.content.startsWith('/kick')) {
-        if (!message.member.hasPermission(["KICK_MEMBERS"])) return message.channel.send('You need to have the permmission "KICK_MEMBERS"!')
+        if (!message.member.hasPermission(["KICK_MEMBERS"])) return message.channel.send('You need to have the permission "KICK_MEMBERS"!')
         message.delete().catch(e => {});
         console.log('Kick command used by', member)
         const user = message.mentions.users.first();
@@ -121,7 +121,7 @@ client.on("message", message => {
         .addField("Stop breaking the rules.")
         .setFooter("This is an automated message.")
         .setTimestamp()
-        .setColor("A30000");
+        .setColor('A30000');
         message.delete().catch(e => {});
         console.log('Blacklisted word was deleted, Sent by', member)
         message.channel.send(embed)
