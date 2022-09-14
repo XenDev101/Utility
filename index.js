@@ -58,7 +58,7 @@ client.on('message', async message => {
     
     if(command === 'dm') {
         let dUser = message.guild.member(message.mentions.users.first())
-        if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply('Sorry you to not have permissions to DM.')
+        if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply('Sorry you do not have the required permissions to DM.')
         if(!dUser) return message.channel.send('Can not find user.')
         let dMessage = args.join(" ").slice(22);
         dUser.send(`You were DM'ed in ${message.guild.name}, this is the message : ${dMessage}`)
@@ -70,7 +70,7 @@ client.on('message', async message => {
     
       if(command === 'warn') {
         let dUser = message.guild.member(message.mentions.users.first())
-        if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply('Sorry you to not have permissions to warn.')
+        if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply('Sorry you do not have the required permissions to warn.')
         if(!dUser) return message.channel.send('Can not find user.')
         let dMessage = args.join(" ").slice(22);
         dUser.send(`You were warned in ${message.guild.name} for: ${dMessage}`)
@@ -97,12 +97,12 @@ client.on("message", message => {
         if (user) {
             const member = message.guild.member(user);
             if (member) {
-                member.kick("Optional reason that will display in the audit logs").then(() => {
+                member.kick("Kicked by " + message.author.username).then(() => {
                     message.channel.send(`Successfully kicked ${user.tag}.`);
                 }).catch(err => {
-                    message.channel.send("I was unable to kick the member");
+                    message.channel.send("I was unable to kick the member.");
                     console.error(err);
-                    member.roles.cache.has('724113809249140787');
+                    //member.roles.cache.has('724113809249140787'); // why 
                 });
             } else {
                 message.channel.send("That user isn't in this guild!");
